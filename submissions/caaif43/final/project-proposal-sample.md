@@ -1,4 +1,4 @@
-# Final Project Proposal
+git add project_paper.md project-proposal-sample.md# Final Project Proposal
 
 **Date:** July 2026
 
