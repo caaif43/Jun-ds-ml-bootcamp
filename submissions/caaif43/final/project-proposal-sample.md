@@ -2,6 +2,8 @@ git add project_paper.md project-proposal-sample.md# Final Project Proposal
 
 **Date:** July 2026
 
+github.com/caaif43/ds-ml-bootcamps
+
 ---
 
 # 1. Certificate Name
