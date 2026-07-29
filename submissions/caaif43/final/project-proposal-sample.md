@@ -1,8 +1,7 @@
-git add project_paper.md project-proposal-sample.md# Final Project Proposal
+# Final Project Proposal
 
 **Date:** July 2026
-
-github.com/caaif43/ds-ml-bootcamps
+**GitHub:** https://github.com/caaif43/ds-ml-bootcamps
 
 ---
 
@@ -16,13 +15,13 @@ github.com/caaif43/ds-ml-bootcamps
 
 ## Title
 
-# Customer Purchase Prediction System
+# Customer Shopping Purchase Prediction System
 
 ## Description
 
 This project aims to build a Machine Learning system that predicts the purchase amount of customers based on their demographic information and shopping behavior. The system helps businesses better understand customer purchasing patterns, improve marketing strategies, and support business decision-making.
 
-The project will include data preprocessing, model training, model evaluation, and deployment using FastAPI. Users will be able to enter customer information through an API and receive a predicted purchase amount.
+The project will include data preprocessing, model training, model evaluation, and deployment using FastAPI with a responsive web-based frontend. Users will be able to enter customer information through a modern dashboard and receive a predicted purchase amount in real time.
 
 ---
 
@@ -30,7 +29,7 @@ The project will include data preprocessing, model training, model evaluation, a
 
 ## Regression (Supervised Learning)
 
-The objective is to predict the customer's purchase amount.
+The objective is to predict the customer's purchase amount (a continuous numerical value).
 
 ### Output
 
@@ -48,7 +47,7 @@ https://www.kaggle.com/datasets/iamsouravbanerjee/customer-shopping-trends-datas
 
 ## Dataset Size
 
-- 3,900+ rows
+- 3,900 customer records
 - 19 columns
 
 ## Target Column
@@ -80,9 +79,9 @@ Purchase Amount (USD)
 - Perform Exploratory Data Analysis (EDA)
 - Remove duplicate records
 - Handle missing values
-- Encode categorical variables
-- Scale numerical features
-- Split the dataset into training and testing sets
+- Label Encode categorical variables
+- Drop non-informative columns (Customer ID)
+- Split the dataset into training (80%) and testing (20%) sets
 
 ---
 
@@ -90,15 +89,15 @@ Purchase Amount (USD)
 
 ## Linear Regression
 
-A simple baseline regression algorithm.
+A simple baseline regression algorithm that models a linear relationship between input features and the target variable.
 
 ## Decision Tree Regressor
 
-A tree-based algorithm capable of modeling non-linear relationships.
+A tree-based algorithm capable of modeling non-linear relationships by learning decision rules from the training data.
 
 ## Random Forest Regressor
 
-An ensemble learning algorithm that combines multiple decision trees for better prediction accuracy.
+An ensemble learning algorithm that combines multiple decision trees (200 estimators) for better prediction accuracy and reduced overfitting.
 
 ---
 
@@ -106,35 +105,41 @@ An ensemble learning algorithm that combines multiple decision trees for better 
 
 The models will be evaluated using:
 
-- Mean Absolute Error (MAE)
-- Root Mean Squared Error (RMSE)
-- R² Score
+- **Mean Absolute Error (MAE)** — average prediction error in USD
+- **Root Mean Squared Error (RMSE)** — penalizes larger errors more heavily
+- **R² Score** — measures the proportion of variance explained by the model
 
-The best model will be selected based on the highest R² Score and the lowest prediction errors (MAE and RMSE).
+The best model will be selected based on the lowest MAE and RMSE, and the highest R² Score.
 
 ---
 
 # 7. Deployment Sketch
 
-## Frontend 
+## Frontend
 
-Simple HTML page or React interface.
+A responsive web dashboard built using:
+- HTML5
+- CSS3 (Glassmorphism design, Dark/Light Mode)
+- Vanilla JavaScript (Fetch API, LocalStorage for prediction history)
+
+Features include a 17-field customer prediction form, animated result card, statistics panel, and prediction history.
 
 ## Backend
 
-FastAPI
+**FastAPI** — Python web framework for building REST APIs
 
-Swagger Documentation
-
-/docs
+- Swagger Documentation: `http://127.0.0.1:8002/docs`
+- CORS enabled for cross-origin requests from the frontend
 
 ## API Endpoint
 
 ### Prediction Endpoint
 
+```
 POST /predict
+```
 
-### Example Input
+### Full Example Input (17 fields)
 
 ```json
 {
@@ -147,7 +152,14 @@ POST /predict
   "Color": 3,
   "Season": 2,
   "Review_Rating": 4.5,
-  "Previous_Purchases": 12
+  "Subscription_Status": 1,
+  "Payment_Method": 2,
+  "Shipping_Type": 1,
+  "Discount_Applied": 0,
+  "Promo_Code_Used": 0,
+  "Previous_Purchases": 12,
+  "Preferred_Payment_Method": 2,
+  "Frequency_of_Purchases": 3
 }
 ```
 
@@ -164,33 +176,44 @@ POST /predict
 # 8. Repository Structure
 
 ```text
-customer-purchase-prediction/
+ds-ml-bootcamps/
 │
 ├── dataset/
-│   └── shopping_trends.csv
+│   ├── shopping_trends.csv          ← original raw dataset
+│   └── clean_shopping_data.csv      ← preprocessed dataset
 │
-├── notebooks/
-│   ├── 01_eda.ipynb
-│   ├── 02_preprocessing.ipynb
-│   └── 03_model_training.ipynb
+├── steps/
+│   ├── 01_data_exploration.ipynb    ← EDA notebook
+│   ├── 02_processing.ipynb          ← Preprocessing notebook
+│   └── 03_model_training.ipynb      ← Model training & evaluation
 │
 ├── api/
-│   └── app.py
+│   └── app.py                       ← FastAPI application
+│
+├── frontend/
+│   ├── index.html                   ← Dashboard UI
+│   ├── style.css                    ← Styling
+│   └── script.js                    ← API integration & logic
 │
 ├── models/
-│   ├── random_forest_model.pkl
-│   └── feature_columns.pkl
+│   ├── random_forest_model.pkl      ← Trained model
+│   └── feature_columns.pkl          ← Feature column list
 │
-├── README.md
+├── build_working_model.py           ← Model training script
 ├── requirements.txt
-└── project_paper.md
+├── .gitignore
+└── README.md
 ```
 
-## Planned Commands
+## Run Commands
 
 ```bash
-python src/train.py
+# Train model
+python build_working_model.py
 
-uvicorn api.app:app --reload
+# Start API server
+uvicorn api.app:app --port 8002 --reload
+
+# Serve frontend
+python -m http.server 3000
 ```
-
